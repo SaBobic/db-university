@@ -24,3 +24,13 @@ SELECT DISTINCT `degrees`.`name`, `courses`.`name`, `teachers`.`name`, `teachers
 SELECT DISTINCT `teachers`.`surname`, `teachers`.`name` FROM `course_teacher` JOIN `teachers` ON `teachers`.`id` = `course_teacher`.`teacher_id` JOIN `courses` ON `courses`.`id` = `course_teacher`.`course_id` JOIN `degrees` ON `degrees`.`id` = `courses`.`degree_id` JOIN `departments` ON `departments`.`id` = `degrees`.`department_id` WHERE `departments`.`name` = 'Dipartimento di Matematica' ORDER BY `teachers`.`surname` ASC;
 
 -- 7. BONUS: Selezionare per ogni studente quanti tentativi d’esame ha sostenuto per superare ciascuno dei suoi esami
+
+SELECT `students`.`surname` AS `Cognome`, `students`.`name` AS `Nome`, `courses`.`name` AS `Materia`, COUNT(`exam_student`.`vote`) AS `Tentativi`
+FROM `exam_student`
+JOIN `students`
+ON `students`.`id` = `exam_student`.`student_id`
+JOIN `exams`
+ON `exams`.`id` = `exam_student`.`exam_id`
+JOIN `courses`
+ON `courses`.`id` = `exams`.`course_id`
+GROUP BY `Cognome`, `Nome`, `Materia`;
